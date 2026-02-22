@@ -571,18 +571,37 @@
         return Math.floor(randomNum * max);
     }
 
-    // ЗАГРУЗКА ИЗ ОБЛАКА ИЛИ LOCALSTORAGE (С проверкой поддержки)
+    // ЗАГРУЗКА ИЗ ОБЛАКА ИЛИ LOCALSTORAGE (С ПРЕДОХРАНИТЕЛЕМ ОТ ЗАВИСАНИЯ)
     function loadState(callback) {
         if (isCloudStorageSupported) {
+            let isLoaded = false;
+            
+            // Запускаем таймер на 1.5 секунды. Если Телеграм висит - спасаем ситуацию
+            const timeoutId = setTimeout(() => {
+                if (!isLoaded) {
+                    isLoaded = true;
+                    console.warn("Телеграм облако зависло, переходим на локальную память");
+                    fallbackLoad(callback);
+                }
+            }, 1500);
+
             try {
                 tg.CloudStorage.getItem(STORAGE_KEY, (err, value) => {
+                    if (isLoaded) return; // Если таймер уже сработал, игнорируем ответ от Телеграма
+                    isLoaded = true;
+                    clearTimeout(timeoutId); // Выключаем таймер, Телеграм ответил вовремя
+                    
                     if (!err && value) {
                         try { appData = { ...appData, ...JSON.parse(value) }; } catch(e){}
                     }
                     finishLoad(callback);
                 });
             } catch (e) {
-                fallbackLoad(callback);
+                if (!isLoaded) {
+                    isLoaded = true;
+                    clearTimeout(timeoutId);
+                    fallbackLoad(callback);
+                }
             }
         } else {
             fallbackLoad(callback);
