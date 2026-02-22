@@ -1,0 +1,1 @@
+# img-host-trends-2026
