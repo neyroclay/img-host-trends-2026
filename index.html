@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Тренды 2026 | Мирофактура</title>
+    
+    <!-- Предварительная загрузка и подключение иконок (чтобы не было текста до загрузки) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block" rel="stylesheet">
+
     <!-- Telegram Web App API -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Библиотека для Конфетти -->
@@ -11,13 +17,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
     <style>
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #FFFFFF; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #F4F7F8; }
         
         /* Выделение текста бирюзовым */
         ::selection { background: #00D2D3; color: #FFFFFF; }
         ::-moz-selection { background: #00D2D3; color: #FFFFFF; }
 
-        #c37 { position: relative; width: 100%; height: 100%; overflow: hidden; background-color: #FFFFFF; user-select: none; -webkit-user-select: none; }
+        #c37 { position: relative; width: 100%; height: 100%; overflow: hidden; background-color: #F4F7F8; user-select: none; -webkit-user-select: none; }
         #c37 .read-scroll-area { user-select: text; -webkit-user-select: text; }
         
         /* BOKEH */
@@ -25,8 +31,8 @@
             content: ""; position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; z-index: 0;
             animation: floatBokeh 10s infinite alternate ease-in-out; pointer-events: none;
         }
-        #c37::before { width: 300px; height: 300px; background: #00D2D3; top: -50px; left: -50px; opacity: 0.2; }
-        #c37::after { width: 400px; height: 400px; background: #FFC845; bottom: -100px; right: -100px; opacity: 0.15; animation-duration: 15s; }
+        #c37::before { width: 300px; height: 300px; background: #00D2D3; top: -50px; left: -50px; opacity: 0.25; }
+        #c37::after { width: 400px; height: 400px; background: #FFC845; bottom: -100px; right: -100px; opacity: 0.2; animation-duration: 15s; }
         @keyframes floatBokeh { 0% { transform: translate(0, 0); } 100% { transform: translate(20px, 30px); } }
 
         #c37 canvas { display: block; width: 100%; height: 100%; outline: none; cursor: default; }
@@ -67,7 +73,7 @@
         /* FULLSCREEN VIEWS */
         #c37 .fullscreen-view {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #FFFFFF; z-index: 20; padding: 60px 20px 120px 20px;
+            background: #F4F7F8; z-index: 20; padding: 60px 20px 120px 20px;
             overflow-y: auto; display: none; flex-direction: column;
             box-sizing: border-box; -webkit-overflow-scrolling: touch;
         }
@@ -75,7 +81,7 @@
 
         /* ONBOARDING */
         #c37 #onboarding-view {
-            position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, #F7F7F7 0%, #FFFFFF 100%);
+            position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, #FFFFFF 0%, #F4F7F8 100%);
             z-index: 1000; display: none; flex-direction: column; align-items: center; justify-content: center;
             padding: 30px; text-align: center; opacity: 0; transition: opacity 0.5s ease;
         }
@@ -90,16 +96,15 @@
         #c37 #game-ui {
             flex: 0 0 auto; 
             padding-bottom: 110px;
-            background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+            background: linear-gradient(to top, rgba(244,247,248,0.9), transparent);
             transition: opacity 0.3s; display: flex; flex-direction: column; align-items: center;
         }
         
         #c37 .hint-text {
             color: #1F2E2E; font-size: 14px; margin-bottom: 15px; letter-spacing: 0.5px; font-weight: 700;
             text-shadow: none; transition: opacity 0.3s;
-            background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 30px;
-            backdrop-filter: blur(5px); border: 1px solid #F7F7F7;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); pointer-events: none; 
+            background: #FFFFFF; padding: 10px 20px; border-radius: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06); pointer-events: none; 
         }
 
         #c37 .progress-wrapper {
@@ -124,7 +129,7 @@
             100% { transform: translate(-50%, -50%) rotate(0deg); }
         }
 
-        #c37 .timer-box { background: rgba(255, 255, 255, 0.9); border: 1px solid #00D2D3; padding: 20px 30px; border-radius: 16px; text-align: center; margin-bottom: 15px; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        #c37 .timer-box { background: #FFFFFF; border: none; padding: 20px 30px; border-radius: 20px; text-align: center; margin-bottom: 15px; display: none; box-shadow: 0 10px 30px rgba(0, 210, 211, 0.15); }
         #c37 .timer-digits { color: #1F2E2E; font-size: 32px; font-weight: 800; }
 
         /* ACTION BUTTONS */
@@ -179,7 +184,7 @@
         #c37 .lib-read-btn { 
             background: #00D2D3; 
             color: #fff; 
-            padding: 8px 20px; 
+            padding: 8px 32px; /* Ещё немного увеличена длина кнопки (с 26px до 32px) */
             border-radius: 30px; 
             font-size: 12px; 
             font-weight: bold; 
@@ -187,7 +192,7 @@
             border: none; 
             width: auto; 
             align-self: flex-start;
-            margin-left: 10px;
+            margin-left: 0px;
             transition: all 0.3s; 
             cursor: pointer;
             box-sizing: border-box;
@@ -198,9 +203,9 @@
 
         /* COLLECTION HINT */
         #c37 .collection-hint { 
-            color: #FFFFFF; font-size: 12px; font-weight: bold; margin-top: 0px; margin-bottom: 15px; 
+            color: #8A9999; font-size: 13px; font-weight: 600; margin-top: 5px; margin-bottom: 15px; 
             text-align: center; pointer-events: auto; transition: opacity 0.3s;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+            text-shadow: none;
         }
 
         /* NAV */
@@ -452,8 +457,6 @@
     const uiLayer = document.createElement('div');
     uiLayer.className = 'ui-layer';
     uiLayer.innerHTML = `
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-        
         <div id="hand-icon" class="material-icons-round">touch_app</div>
 
         <!-- MODAL: READ TREND -->
@@ -568,7 +571,7 @@
         return Math.floor(randomNum * max);
     }
 
-    // ЗАГРУЗКА ИЗ ОБЛАКА ИЛИ LOCALSTORAGE
+    // ЗАГРУЗКА ИЗ ОБЛАКА ИЛИ LOCALSTORAGE (С проверкой поддержки)
     function loadState(callback) {
         if (isCloudStorageSupported) {
             try {
